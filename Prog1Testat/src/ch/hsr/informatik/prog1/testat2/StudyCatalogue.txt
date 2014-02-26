@@ -1,0 +1,11 @@
+DB1 Prog1
+DB2 DB1
+Math
+Prog1
+Prog2 Prog1
+Prog3 Prog1 Math
+Thesis DB2 SE2 UI2
+SE1 Prog2 Prog3 DB1
+SE2 DB1 SE1 UI1
+UI1 Prog2
+UI2 UI1
