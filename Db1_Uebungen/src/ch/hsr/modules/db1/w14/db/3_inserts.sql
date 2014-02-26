@@ -1,0 +1,49 @@
+-- Test Data
+INSERT INTO Address VALUES(DEFAULT, '1242 1st Ave', 5414, 'Santa Fe');
+INSERT INTO Address VALUES(DEFAULT, '7 Market Street', 123456, 'Los Angeles');
+INSERT INTO Address VALUES(DEFAULT, '321 132. Ave', 432, 'New York');
+INSERT INTO Address VALUES(DEFAULT, '5434, 173 St', 3213, 'Boston');
+INSERT INTO Address VALUES(DEFAULT, '1, Old Town St', 8321, 'Seattle');
+INSERT INTO Address VALUES(DEFAULT, 'Hauptstrasse 2', 8000, 'Zürich');
+INSERT INTO Address VALUES(DEFAULT, 'Bahnhofgasse 6', 6000, 'Zug');
+INSERT INTO Address VALUES(DEFAULT, 'Feldweg 2', 5432, 'Dübendorf');
+INSERT INTO Address VALUES(DEFAULT, '1, rue des champs', 1000, 'Genève');
+INSERT INTO Address VALUES(DEFAULT, '1, baker street', 635123, 'London');
+INSERT INTO Address VALUES(DEFAULT, 'Seeweg 2', 56555, 'Berlin');
+
+INSERT INTO BankCustomer VALUES(DEFAULT, 'Paul Meier', '1980-10-10', 9);
+INSERT INTO BankCustomer VALUES(DEFAULT, 'Peter Huber', '1970-03-03', 8);
+INSERT INTO BankCustomer VALUES(DEFAULT, 'Alice Müller', '1960-04-04', 7);
+INSERT INTO BankCustomer VALUES(DEFAULT, 'Berta Bauer', '1975-03-02', 6);
+INSERT INTO BankCustomer VALUES(DEFAULT, 'Samuel Schneider', '1982-01-01', 10);
+INSERT INTO BankCustomer VALUES(DEFAULT, 'Petra Müller', '1974-04-04', 11);
+
+INSERT INTO BankManager VALUES(DEFAULT, 'John Smith', 2);
+INSERT INTO BankManager VALUES(DEFAULT, 'Doug Rich', 1);
+INSERT INTO BankManager VALUES(DEFAULT, 'Jane Baker', 3);
+INSERT INTO BankManager VALUES(DEFAULT, 'Diane Levy', 4);
+
+INSERT INTO BankAccount VALUES(DEFAULT, 1, 1000, 'CHF');
+INSERT INTO BankAccount VALUES(DEFAULT, 2, -200, 'CHF');
+INSERT INTO BankAccount VALUES(DEFAULT, 3, 100000, 'CHF');
+INSERT INTO BankAccount VALUES(DEFAULT, 3, -400, 'CHF');
+INSERT INTO BankAccount VALUES(DEFAULT, 5, -900, 'CHF');
+INSERT INTO BankAccount VALUES(DEFAULT, 1, 4000, 'EUR');
+INSERT INTO BankAccount VALUES(DEFAULT, 3, 7000, 'USD');
+INSERT INTO BankAccount VALUES(DEFAULT, 4, 80000, 'USD');
+INSERT INTO BankAccount VALUES(DEFAULT, 5, 1200, 'CHF');
+INSERT INTO BankAccount VALUES(DEFAULT, 5, 3000, 'EUR');
+INSERT INTO BankAccount VALUES(DEFAULT, 5, 0, 'USD');
+INSERT INTO BankAccount VALUES(DEFAULT, 5, 1000, 'JPY');
+INSERT INTO BankAccount VALUES(DEFAULT, 5, 70, 'GBP');
+INSERT INTO BankAccount VALUES(DEFAULT, 6, 1000000, 'EUR');
+
+INSERT INTO CustomerManager VALUES(1, 2);
+INSERT INTO CustomerManager VALUES(1, 3);
+INSERT INTO CustomerManager VALUES(1, 4);
+INSERT INTO CustomerManager VALUES(2, 1);
+INSERT INTO CustomerManager VALUES(3, 1);
+INSERT INTO CustomerManager VALUES(3, 4);
+INSERT INTO CustomerManager VALUES(4, 1);
+INSERT INTO CustomerManager VALUES(6, 4);
+INSERT INTO CustomerManager VALUES(6, 1);
