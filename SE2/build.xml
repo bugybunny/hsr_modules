@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+	<target name="clean">
+		<delete dir="build" />
+	</target>
+
+	<target name="compile" depends="clean">
+		<mkdir dir="build/classes" />
+		<javac srcdir="src" destdir="build/classes" includeantruntime="false" source="1.7" target="1.7"/>
+	</target>
+
+	<target name="jar" depends="compile">
+		<mkdir dir="build/jar" />
+		<jar destfile="build/jar/HelloWorld.jar" basedir="build/classes">
+			<manifest>
+				<attribute name="Main-Class" value="week2.HelloWorld" />
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="run" depends="jar">
+		<java jar="build/jar/HelloWorld.jar" fork="true" />
+	</target>
+
+</project>
