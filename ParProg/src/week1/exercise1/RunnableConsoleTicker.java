@@ -1,10 +1,10 @@
-package week1.aufgabe1;
+package week1.exercise1;
 
-public class ThreadConsoleTicker extends Thread {
+public class RunnableConsoleTicker implements Runnable {
     private char sign;
     private int  intervallMillis;
 
-    public ThreadConsoleTicker(char aSign, int anIntervallMillis) {
+    public RunnableConsoleTicker(char aSign, int anIntervallMillis) {
         super();
         sign = aSign;
         intervallMillis = anIntervallMillis;
@@ -24,7 +24,7 @@ public class ThreadConsoleTicker extends Thread {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        new ThreadConsoleTicker('.', 10).start();
-        new ThreadConsoleTicker('*', 20).start();
+        new Thread(new RunnableConsoleTicker('.', 10)).start();
+        new Thread(new RunnableConsoleTicker('*', 20)).start();
     }
 }

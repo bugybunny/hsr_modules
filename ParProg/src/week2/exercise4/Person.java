@@ -1,4 +1,4 @@
-package week2.aufgabe4;
+package week2.exercise4;
 
 public class Person {
 

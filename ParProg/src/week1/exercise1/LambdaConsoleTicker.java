@@ -1,4 +1,4 @@
-package week1.aufgabe1;
+package week1.exercise1;
 
 public class LambdaConsoleTicker {
 
