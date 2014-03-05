@@ -19,9 +19,10 @@ public class WarehouseWithMonitor implements Warehouse {
 
     @Override
     public synchronized void get(int anAmount) throws InterruptedException {
-        while (currentAmount < anAmount) {
+        while (currentAmount - anAmount < 0) {
             wait();
         }
         currentAmount -= anAmount;
+        notifyAll();
     }
 }
