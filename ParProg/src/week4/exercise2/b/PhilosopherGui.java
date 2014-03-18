@@ -1,4 +1,4 @@
-package week4.aufgabe2.a;
+package week4.exercise2.b;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -109,7 +109,7 @@ class PhilosopherPanel extends JPanel implements Observer {
                             * Math.sin(i * phi)), 2 * plateRadius,
                     2 * plateRadius, 0, 360);
 
-            g.setColor(Color.BLACK);
+            g.setColor(Color.black);
             if (table.getPhilo(i).getPhiloState() == PhiloState.eating) {
                 teta = (-phi / 7);
             }

@@ -1,4 +1,4 @@
-package week4.aufgabe3.b;
+package week4.exercise.b;
 
 import static org.junit.Assert.assertTrue;
 

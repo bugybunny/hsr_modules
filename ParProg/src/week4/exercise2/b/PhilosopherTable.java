@@ -1,4 +1,4 @@
-package week4.aufgabe2.a;
+package week4.exercise2.b;
 
 import java.util.Observable;
 import java.util.concurrent.Semaphore;
@@ -43,10 +43,17 @@ class Philosopher extends Thread {
     private void takeForks() throws InterruptedException {
         philoState = PhiloState.hungry;
         table.notifyStateChange(this);
-        // try to get the forks
-        table.acquireFork(table.leftForkNumber(id));
-        sleep(500);
-        table.acquireFork(table.rightForkNumber(id));
+
+        int leftForkNo = table.leftForkNumber(id);
+        int rightForkNo = table.rightForkNumber(id);
+
+        table.acquireFork(leftForkNo);
+        while (!table.tryAcquireFork(rightForkNo)) {
+            System.out.println("Philosophers " + getId() + " retries...");
+            table.releaseFork(leftForkNo);
+            sleep(500);
+            table.acquireFork(leftForkNo);
+        }
     }
 
     private void putForks() {
@@ -87,6 +94,10 @@ class PhilosopherTable extends Observable {
         for (int i = 0; i < nofPhilosophers; i++) {
             philosophers[i] = new Philosopher(this, i);
         }
+    }
+
+    public boolean tryAcquireFork(int forkNumber) {
+        return forks[forkNumber].tryAcquire();
     }
 
     public void acquireFork(int forkNumber) throws InterruptedException {

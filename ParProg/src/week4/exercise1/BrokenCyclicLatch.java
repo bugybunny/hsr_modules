@@ -1,4 +1,4 @@
-package week4.aufgabe1;
+package week4.exercise1;
 
 import java.util.concurrent.CountDownLatch;
 

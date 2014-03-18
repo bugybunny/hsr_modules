@@ -1,4 +1,4 @@
-package week4.aufgabe2.c;
+package week4.exercise2.c;
 
 import java.awt.Color;
 import java.awt.Dimension;
