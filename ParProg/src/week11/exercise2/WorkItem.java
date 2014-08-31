@@ -9,40 +9,40 @@ import java.util.concurrent.Callable;
  * wird eine Exception geworfen.
  */
 public class WorkItem implements Callable<Long> {
-    final long numberToTest = (long) (Math.random() * 100);
+  final long numberToTest = (long) (Math.random() * 100);
 
-    @Override
-    public Long call() throws InterruptedException {
+  @Override
+  public Long call() throws InterruptedException {
 
-        if (Math.random() >= 0.9) {
-            throw new RuntimeException("Crashed");
-        }
-
-        Thread.sleep(1000);
-
-        return countPrimes(numberToTest);
+    if (Math.random() >= 0.9) {
+      throw new RuntimeException("Crashed");
     }
 
-    public String getDescription() {
-        return "How many primes are there up to " + numberToTest + "?";
-    }
+    Thread.sleep(1000);
 
-    private boolean isPrime(long number) {
-        for (long factor = 2; factor * factor <= number; factor++) {
-            if (number % factor == 0) {
-                return false;
-            }
-        }
-        return true;
-    }
+    return countPrimes(numberToTest);
+  }
 
-    private long countPrimes(long end) {
-        long count = 0;
-        for (long number = 2; number < end; number++) {
-            if (isPrime(number)) {
-                count++;
-            }
-        }
-        return count;
+  public String getDescription() {
+    return "How many primes are there up to " + numberToTest + "?";
+  }
+
+  private boolean isPrime(long number) {
+    for (long factor = 2; factor * factor <= number; factor++) {
+      if (number % factor == 0) {
+        return false;
+      }
     }
+    return true;
+  }
+
+  private long countPrimes(long end) {
+    long count = 0;
+    for (long number = 2; number < end; number++) {
+      if (isPrime(number)) {
+        count++;
+      }
+    }
+    return count;
+  }
 }

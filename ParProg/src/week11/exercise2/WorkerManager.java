@@ -21,82 +21,81 @@ import akka.japi.Function;
  */
 public class WorkerManager extends UntypedActor {
 
-    public static class Schedule {
-        private final WorkItem work;
+  public static class Schedule {
+    private final WorkItem work;
 
-        public Schedule(WorkItem work) {
-            this.work = work;
-        }
-
-        public WorkItem getWork() {
-            return work;
-        }
+    public Schedule(WorkItem work) {
+      this.work = work;
     }
 
-    public static class NoWorkersAvailable {
+    public WorkItem getWork() {
+      return work;
     }
+  }
 
-    /**
-     * Eine Queue der unbeschäftigten Worker.
-     */
-    private final Deque<ActorRef>                                   idle    = new LinkedList<>();
+  public static class NoWorkersAvailable {
+  }
 
-    /**
-     * Zusätzlich zu den beschäftigten Worker merken wir uns auch den
-     * ursprünglichen "Auftraggeber" des WorkItems, damit wir diesem das
-     * Resultat zurückschicken können:
-     */
-    private final Map<ActorRef /* Worker */, ActorRef /* Sender */> working = new HashMap<>();
+  /**
+   * Eine Queue der unbeschäftigten Worker.
+   */
+  private final Deque<ActorRef> idle = new LinkedList<>();
 
-    public WorkerManager(int numberOfWorkers) {
-        for (int i = 1; i <= numberOfWorkers; i++) {
-            ActorRef worker = getContext().system().actorOf(
-                    Props.create(Worker.class).withDispatcher(
-                            "pinned-dispatcher"), "W" + i);
-            idle.add(worker);
-        }
+  /**
+   * Zusätzlich zu den beschäftigten Worker merken wir uns auch den
+   * ursprünglichen "Auftraggeber" des WorkItems, damit wir diesem das Resultat
+   * zurückschicken können:
+   */
+  private final Map<ActorRef /* Worker */, ActorRef /* Sender */> working = new HashMap<>();
+
+  public WorkerManager(int numberOfWorkers) {
+    for (int i = 1; i <= numberOfWorkers; i++) {
+      ActorRef worker = getContext().system().actorOf(
+          Props.create(Worker.class).withDispatcher("pinned-dispatcher"),
+          "W" + i);
+      idle.add(worker);
     }
+  }
 
-    @Override
-    public void onReceive(Object message) {
-        if (message instanceof Schedule && idle.isEmpty()) {
-            getSender().tell(new NoWorkersAvailable(), getSelf());
-        } else if (message instanceof Schedule) {
-            ActorRef worker = idle.poll();
-            working.put(worker, getSender());
-            worker.tell(((Schedule) message).getWork(), getSelf());
+  @Override
+  public void onReceive(Object message) {
+    if (message instanceof Schedule && idle.isEmpty()) {
+      getSender().tell(new NoWorkersAvailable(), getSelf());
+    } else if (message instanceof Schedule) {
+      ActorRef worker = idle.poll();
+      working.put(worker, getSender());
+      worker.tell(((Schedule) message).getWork(), getSelf());
 
-        } else if (message instanceof WorkItemResult) {
-            ActorRef originalSender = working.remove(getSender());
-            idle.offer(getSender());
-            originalSender.tell(message, getSelf());
-        }
+    } else if (message instanceof WorkItemResult) {
+      ActorRef originalSender = working.remove(getSender());
+      idle.offer(getSender());
+      originalSender.tell(message, getSelf());
     }
+  }
 
-    protected void childHasCrashed(ActorRef sender) {
-        // Der Worker wurde bereits neu gestartet, wir müssen ihn aber noch
-        // zusätzlich von der idle in die working Liste umteilen.
-        working.remove(sender);
-        idle.add(sender);
-    }
+  protected void childHasCrashed(ActorRef sender) {
+    // Der Worker wurde bereits neu gestartet, wir müssen ihn aber noch
+    // zusätzlich von der idle in die working Liste umteilen.
+    working.remove(sender);
+    idle.add(sender);
+  }
 
-    /**
-     * Konfiguration für das Supervisor-Verhalten.
-     * 
-     * Egal was fehlschlägt, wir starten unsere Workers einfach neu
-     * (SupervisorStrategy.restart()). Man könnte hier aber auch Aufgrund der
-     * geworfenene Exception eine andere Strategie implementieren.
-     */
-    @Override
-    public SupervisorStrategy supervisorStrategy() {
-        return new OneForOneStrategy(-1 /* Restart forever */, Duration.Inf(),
-                new Function<Throwable, Directive>() {
-                    @Override
-                    public Directive apply(Throwable t) {
-                        childHasCrashed(getSender());
-                        return SupervisorStrategy.restart();
-                    }
-                });
-    }
-
+  /**
+   * Konfiguration für das Supervisor-Verhalten.
+   *
+   * Egal was fehlschlägt, wir starten unsere Workers einfach neu
+   * (SupervisorStrategy.restart()). Man könnte hier aber auch Aufgrund der
+   * geworfenene Exception eine andere Strategie implementieren.
+   */
+  @Override
+  public SupervisorStrategy supervisorStrategy() {
+    return new OneForOneStrategy(-1 /* Restart forever */, Duration.Inf(),
+        new Function<Throwable, Directive>() {
+      @Override
+      public Directive apply(Throwable t) {
+        childHasCrashed(getSender());
+        return SupervisorStrategy.restart();
+      }
+    });
+  }
 }

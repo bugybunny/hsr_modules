@@ -1,4 +1,4 @@
-package week4.exercise.b;
+package week4.exercise3.b;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
 
